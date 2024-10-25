@@ -151,7 +151,8 @@ def formato_moeda(valor):
 
 #Calculos de Faturamento, volume e preço médio
 def Calcular_faturamento(tabela_sc6010):
-    soma = tabela_sc6010['C6_VALOR'].sum()
+    tabela = Tabela_pedidos_faturados(tabela_sc6010)
+    soma = tabela['C6_VALOR'].sum()
     total = f'R${soma:_.2f}'
     total = total.replace('.',',').replace('_','.')
     return total
