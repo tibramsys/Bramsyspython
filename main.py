@@ -4,7 +4,7 @@ import os
 from dotenv import load_dotenv
 import time
 
-
+st.set_page_config(layout='wide')
 load_dotenv()
 
 # Função para autenticar o usuário
