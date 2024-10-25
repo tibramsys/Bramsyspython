@@ -17,7 +17,7 @@ def autenticar_usuario(usuario, senha):
     database = os.getenv('database')
     
     #Criar conexão com banco de dados e tabela de usuarios
-    conn = pyodbc.connect(f'Driver={{{'ODBC Driver 17 for SQL Server'}};Server={host};Database={database};UID={user};PWD={password}')
+    conn = pyodbc.connect(f'Driver={{'ODBC Driver 17 for SQL Server'}};Server={host};Database={database};UID={user};PWD={password}')
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM usuarios WHERE login = ? AND senha = ?", (usuario, senha))
     user = cursor.fetchone()
