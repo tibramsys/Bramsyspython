@@ -11,10 +11,10 @@ load_dotenv()
 def autenticar_usuario(usuario, senha):
     
     #Credenciais do banco de dados
-    host = os.getenv('host')
-    user = os.getenv('user')
-    password = os.getenv('password')
-    database = 'Ploomes'
+    'host': os.getenv('DB_HOST'),
+    'user': os.getenv('DB_USER'),
+    'password': os.getenv('DB_PASSWORD'),
+    'database': os.getenv('DB_NAME')
     
     #Criar conexão com banco de dados e tabela de usuarios
     conn = pyodbc.connect(f'Driver={{ODBC Driver 17 for SQL Server}};Server={host};Database={database};UID={user};PWD={password}')
