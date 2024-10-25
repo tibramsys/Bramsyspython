@@ -85,10 +85,10 @@ FROM SA3010
 #Cria conexão com banco de dados
 def Conexao_bd():
     return {
-        'host': os.getenv('DB_HOST'),
-        'user': os.getenv('DB_USER'),
-        'password': os.getenv('DB_PASSWORD'),
-        'database': os.getenv('DB_NAME')
+        'host': os.getenv('host'),
+        'user': os.getenv('user'),
+        'password': os.getenv('password'),
+        'database': os.getenv('name')
     }
 
 #Transforma a consulta em dataframe
