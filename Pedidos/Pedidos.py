@@ -1,10 +1,9 @@
 import pandas as pd
-import streamlit as st 
+import streamlit as st
 import pyodbc
 from datetime import datetime
 from dotenv import load_dotenv
 import os
-import time
 
 #Carrega as credenciais do banco de dados
 load_dotenv()
@@ -85,16 +84,16 @@ FROM SA3010
 #Cria conexão com banco de dados
 def Conexao_bd():
     return {
-        'host': os.getenv('host'),
-        'user': os.getenv('user'),
-        'password': os.getenv('password'),
-        'database': os.getenv('name')
+        'host': os.getenv('DB_HOST'),
+        'user': os.getenv('DB_USER'),
+        'password': os.getenv('DB_PASSWORD'),
+        'database': os.getenv('DB_NAME')
     }
 
 #Transforma a consulta em dataframe
 def Criar_tabela(consulta):
     credenciais = Conexao_bd()
-    conn = pyodbc.connect(f'Driver={{ODBC Driver 17 for SQL Server}};Server={credenciais["host"]};Database=protheus12_producao;UID={credenciais["user"]};PWD={credenciais["password"]}')
+    conn = pyodbc.connect(f'Driver={{SQL Server}};Server={credenciais["host"]};Database=protheus12_producao;UID={credenciais["user"]};PWD={credenciais["password"]}')
     df = pd.read_sql(consulta, conn)
     return df
 
@@ -107,7 +106,6 @@ def Mesclar_tabelas(tabela1, tabela2, coluna_referencia):
     return df
 
 #Cria tabela de pedidos não faturados
-@st.cache
 def Tabela_pedidos_nao_faturados(tabela_sc6010):
     df = tabela_sc6010[['C6_NUM','C6_QTDVEN','A1_COD','A1_NOME','C6_VALOR','A3_NREDUZ','C5_LIBEROK']] #Seleciona as colunas
     df = df.loc[df['C5_LIBEROK'] == ' '] #Filtra apenas os pedidos não faturados onde C5_LIBEROK esta vazio
@@ -128,7 +126,6 @@ def Tabela_pedidos_nao_faturados(tabela_sc6010):
     return df_nfat
     
 #Cria tabela de pedidos não faturados  
-@st.cache
 def Tabela_pedidos_faturados(tabela_sc6010):
     df = tabela_sc6010[['C6_NUM','C6_NOTA','C6_QTDVEN','A1_COD','A1_NOME','C6_VALOR','A3_NREDUZ']] #Seleciona as colunas
     
@@ -192,7 +189,11 @@ def main():
     sc6010 = Mesclar_tabelas(sc6010, sa3010,'VENDEDOR')
     
     pedidos_naofaturados = Tabela_pedidos_nao_faturados(sc6010)
+    pedidos_naofaturados['C6_VALOR'] = pedidos_naofaturados['C6_VALOR'].apply(formato_moeda)
+    
     pedidos_faturados = Tabela_pedidos_faturados(sc6010)
+    pedidos_faturados['C6_VALOR'] = pedidos_faturados['C6_VALOR'].apply(formato_moeda)
+    
     
     faturamento = Calcular_faturamento(sc6010)
     volume = Calcular_volume(sc6010)
@@ -219,6 +220,3 @@ def main():
 main()
 
 
-
-
-	
