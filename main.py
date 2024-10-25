@@ -69,7 +69,7 @@ history = st.Page("Pedidos/history.py", title="History")
 pedidos = st.Page("Pedidos/Pedidos.py", title=" Faturados", icon=":material/event_note:")
 
 if st.session_state.logged_in:
-    # pg = st.set_page_config(layout='wide')
+    pg = st.set_page_config(layout='wide')
     pg = st.navigation(
         {
             "Conta": [logout_page],
