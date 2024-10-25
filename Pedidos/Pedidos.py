@@ -93,7 +93,7 @@ def Conexao_bd():
 #Transforma a consulta em dataframe
 def Criar_tabela(consulta):
     credenciais = Conexao_bd()
-    conn = pyodbc.connect(f'Driver={{SQL Server}};Server={credenciais["host"]};Database=protheus12_producao;UID={credenciais["user"]};PWD={credenciais["password"]}')
+    conn = pyodbc.connect(f'Driver={{ODBC Driver 17 for SQL Server}};Server={credenciais["host"]};Database=protheus12_producao;UID={credenciais["user"]};PWD={credenciais["password"]}')
     df = pd.read_sql(consulta, conn)
     return df
 
