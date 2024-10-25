@@ -2,12 +2,13 @@ import pandas as pd
 import streamlit as st 
 import pyodbc
 from datetime import datetime
+from dotenv import load_dotenv
+import os
 
-
+load_dotenv()
 
 def pagina_inicial():
-
-
+	
 	host = os.getenv('host')
     	user = os.getenv('user')
     	password = os.getenv('password')
