@@ -87,7 +87,7 @@ FROM SA3010
 """
 
 #Consulta banco de Dados - SC6010
-conn_1 = pyodbc.connect(f'Driver={{SQL Server}};Server={host};Database={database};UID={user};PWD={password}')
+conn_1 = pyodbc.connect(f'Driver={{ODBC Driver 17 for SQL Server}};Server={host};Database={database};UID={user};PWD={password}')
 cursor_1 = conn_1.cursor()
 cursor_1.execute(query_sc6010)
 rows = cursor_1.fetchall()
@@ -151,7 +151,7 @@ for row in rows:
 	sc6010.loc[len(sc6010)] = dicionario
 	
 #Consulta banco de Dados - SA1010
-conn_2 = pyodbc.connect(f'Driver={{SQL Server}};Server={host};Database={database};UID={user};PWD={password}')
+conn_2 = pyodbc.connect(f'Driver={{ODBC Driver 17 for SQL Server}};Server={host};Database={database};UID={user};PWD={password}')
 cursor_2 = conn_2.cursor()
 cursor_2.execute(query_sa1010)
 rows = cursor_2.fetchall()
@@ -181,7 +181,7 @@ sc6010 = pd.merge(sc6010, sa1010, how='left', on='COD')
 
 
 #Consulta banco de Dados - SA3010
-conn_3 = pyodbc.connect(f'Driver={{SQL Server}};Server={host};Database={database};UID={user};PWD={password}')
+conn_3 = pyodbc.connect(f'Driver={{ODBC Driver 17 for SQL Server}};Server={host};Database={database};UID={user};PWD={password}')
 cursor_3 = conn_3.cursor()
 cursor_3.execute(query_sa3010)
 rows3 = cursor_3.fetchall()
