@@ -48,6 +48,8 @@ def login():
                 st.error('Usuário/senha inválidos')
 
 def logout():
+    st.markdown('Aviso')
+    st.write('Para atualizar a pagina selecione a mesma pagina na barra lateral')
     if st.button("Log out"):
         st.session_state.logged_in = False
         st.rerun()
