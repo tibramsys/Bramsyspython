@@ -107,6 +107,7 @@ def Mesclar_tabelas(tabela1, tabela2, coluna_referencia):
     return df
 
 #Cria tabela de pedidos não faturados
+@st.cache
 def Tabela_pedidos_nao_faturados(tabela_sc6010):
     df = tabela_sc6010[['C6_NUM','C6_QTDVEN','A1_COD','A1_NOME','C6_VALOR','A3_NREDUZ','C5_LIBEROK']] #Seleciona as colunas
     df = df.loc[df['C5_LIBEROK'] == ' '] #Filtra apenas os pedidos não faturados onde C5_LIBEROK esta vazio
@@ -127,6 +128,7 @@ def Tabela_pedidos_nao_faturados(tabela_sc6010):
     return df_nfat
     
 #Cria tabela de pedidos não faturados  
+@st.cache
 def Tabela_pedidos_faturados(tabela_sc6010):
     df = tabela_sc6010[['C6_NUM','C6_NOTA','C6_QTDVEN','A1_COD','A1_NOME','C6_VALOR','A3_NREDUZ']] #Seleciona as colunas
     
