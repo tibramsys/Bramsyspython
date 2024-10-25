@@ -14,7 +14,7 @@ def autenticar_usuario(usuario, senha):
     host = os.getenv('host')
     user = os.getenv('user')
     password = os.getenv('password')
-    database = os.getenv('database')
+    database = 'Ploomes'
     
     #Criar conexão com banco de dados e tabela de usuarios
     conn = pyodbc.connect(f'Driver={{ODBC Driver 17 for SQL Server}};Server={host};Database={database};UID={user};PWD={password}')
