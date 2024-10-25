@@ -129,8 +129,8 @@ def Tabela_pedidos_nao_faturados(tabela_sc6010):
 def Tabela_pedidos_faturados(tabela_sc6010):
     df = tabela_sc6010[['C6_NUM','C6_NOTA','C6_QTDVEN','A1_COD','A1_NOME','C6_VALOR','A3_NREDUZ']] #Seleciona as colunas
     
-    df1 = df.loc[df['C6_NOTA'] != ' '] #Filtra apenas os pedidos que possuem NF
-    df1 = df1.drop_duplicates(subset=['C6_NOTA']).reset_index() #Remove os valores duplicados
+    df = df.loc[df['C6_NOTA'] != ' '] #Filtra apenas os pedidos que possuem NF
+    df1 = df.drop_duplicates(subset=['C6_NOTA']).reset_index() #Remove os valores duplicados
     df1 = df1.drop(['index','C6_VALOR','C6_QTDVEN'], axis=1) #Remove colunas
     
     #Cria uma nova tabela com valores e quantidades somadas
