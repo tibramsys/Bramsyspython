@@ -8,10 +8,10 @@ from datetime import datetime
 def pagina_inicial():
 
 
-	host = '131.161.123.62'
-	user = 'bramsysbkp'
-	password = '(Br45y5&*/*-+!)'
-	database = 'protheus12_producao'
+	host = os.getenv('host')
+    	user = os.getenv('user')
+    	password = os.getenv('password')
+    	database = 'protheus12_producao'
 
 	query_sc6010 = """
 	DECLARE @DATE_MIN AS DATE
