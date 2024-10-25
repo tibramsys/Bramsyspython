@@ -8,7 +8,7 @@ import time
 
 load_dotenv()
 
-while true:
+while True:
 	host = os.getenv('host')
 	user = os.getenv('user')
 	password = os.getenv('password')
