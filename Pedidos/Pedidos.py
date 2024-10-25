@@ -136,7 +136,7 @@ for row in rows:
 		'C6_LOJA' : row[10],
 		'C6_NOTA' : row[11],
 		'C6_SERIE' : row[12],
-		'C6_DATFAT' : datetime.strptime(row[13],'%Y-%m-%d'),
+		'C6_DATFAT' : datetime.strptime(str(row[13]),'%Y-%m-%d'),
 		'C6_NUM' : row[14],
 		'C6_DESCRI' : row[15],
 		'C6_PRUNIT' : row[16],
