@@ -68,7 +68,7 @@ bugs = st.Page("Vendas/bugs.py", title="Bug Vendas", icon=":material/bug_report:
 alerts = st.Page("Vendas/alerts.py", title="System alerts", icon=":material/notification_important:")
 search = st.Page("Pedidos/search.py", title="Search")
 history = st.Page("Pedidos/history.py", title="History")
-pedidos = st.Page("Pedidos/Pedidos.py", title=" Faturados", icon=":material/done_outline:")
+pedidos = st.Page("Pedidos/Pedidos.py", title=" Faturados", icon=":material/check_small:")
 
 if st.session_state.logged_in:
 
