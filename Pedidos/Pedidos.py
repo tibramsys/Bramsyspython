@@ -1,3 +1,4 @@
+
 import pandas as pd
 import streamlit as st
 import pyodbc
@@ -127,14 +128,14 @@ def Tabela_pedidos_nao_faturados(tabela_sc6010):
     
 #Cria tabela de pedidos não faturados  
 def Tabela_pedidos_faturados(tabela_sc6010):
-    df = tabela_sc6010[['C6_NUM','C6_NOTA','C6_QTDVEN','A1_COD','A1_NOME','C6_VALOR','A3_NREDUZ']] #Seleciona as colunas
+    df_atual = tabela_sc6010[['C6_NUM','C6_NOTA','C6_QTDVEN','A1_COD','A1_NOME','C6_VALOR','A3_NREDUZ']] #Seleciona as colunas
     
-    df = df.loc[df['C6_NOTA'] != ' '] #Filtra apenas os pedidos que possuem NF
+    df = df_atual.loc[df_atual['C6_NOTA'] != ' '] #Filtra apenas os pedidos que possuem NF
     df1 = df.drop_duplicates(subset=['C6_NOTA']).reset_index() #Remove os valores duplicados
     df1 = df1.drop(['index','C6_VALOR','C6_QTDVEN'], axis=1) #Remove colunas
     
     #Cria uma nova tabela com valores e quantidades somadas
-    df2 = df.groupby('C6_NOTA')[['C6_VALOR', 'C6_QTDVEN']].sum().reset_index() #Soma os valores das colunas C6_QTDVEN e C6_VALOR
+    df2 = df_atual.groupby('C6_NOTA')[['C6_VALOR', 'C6_QTDVEN']].sum().reset_index() #Soma os valores das colunas C6_QTDVEN e C6_VALOR
     
     #Remove espaços em branco do valores
     df2['C6_NOTA'] = df2['C6_NOTA'].str.strip()
@@ -195,6 +196,7 @@ def main():
     pedidos_faturados = Tabela_pedidos_faturados(sc6010)
     pedidos_faturados['C6_VALOR'] = pedidos_faturados['C6_VALOR'].apply(formato_moeda)
     
+    print(pedidos_faturados)
     
     faturamento = Calcular_faturamento(sc6010)
     volume = Calcular_volume(sc6010)
