@@ -52,7 +52,7 @@ LEFT JOIN SC5010 ON SC6010.C6_FILIAL = SC5010.C5_FILIAL AND SC6010.C6_NUM = SC50
 WHERE 
 	SC6010.D_E_L_E_T_ = ' '
 	AND SC6010.C6_CF IN ('5101','5102','5113','5114','5551','6101','6102','6107','6108','6109','6113','6114','6551','6933')
-	AND SC6010.C6_TES NOT IN ('5AW','5AY', '5AZ', '5BA', '5BB', '5BC', '6AD', '8LB', '8LC', '8LD', '8LE')
+	AND SC6010.C6_TES NOT IN ('5AY', '5AZ', '5BA', '5BB', '5BC', '6AD', '8LB', '8LC', '8LD', '8LE')
 	AND CONVERT(DATE,SC6010.C6_SUGENTR,112) >= @DATE_MIN
  """
 
@@ -130,7 +130,7 @@ def Tabela_pedidos_nao_faturados(tabela_sc6010):
 def Tabela_pedidos_faturados(tabela_sc6010):
     df_atual = tabela_sc6010[['C6_NUM','C6_NOTA','C6_QTDVEN','A1_COD','A1_NOME','C6_VALOR','A3_NREDUZ']] #Seleciona as colunas
     
-    df = df_atual.loc[df_atual['C6_NOTA'] != ' '] #Filtra apenas os pedidos que possuem NF
+    df = df_atual.loc[df_atual['C6_NOTA'] != None] #Filtra apenas os pedidos que possuem NF
     df1 = df.drop_duplicates(subset=['C6_NOTA']).reset_index() #Remove os valores duplicados
     df1 = df1.drop(['index','C6_VALOR','C6_QTDVEN'], axis=1) #Remove colunas
     
@@ -176,6 +176,44 @@ def Calcular_preco_medio(tabela_sc6010):
         
     return preco_medio
 
+def Renomear_colunas(tabela):
+
+    qtd_cols = tabela.shape[1]
+    if qtd_cols == 6:
+        tabela.rename(columns={
+        'C6_NUM' : 'Pedido',
+        'A1_COD' : 'Cód Cliente',
+        'A1_NOME' : 'Cliente',
+        'A3_NREDUZ' : 'Vendedor',
+        'C6_QTDVEN' : 'Quantidade',
+        'C6_VALOR' : 'Valor'},
+                inplace=True)
+    else:
+        tabela.rename(columns={
+        'C6_NUM' : 'Pedido',
+        'C6_NOTA' : 'NF',
+        'A1_COD' : 'Cód Cliente',
+        'A1_NOME' : 'Cliente',
+        'A3_NREDUZ' : 'Vendedor',
+        'C6_VALOR' : 'Valor',
+        'C6_QTDVEN' : 'Quantidade',}, 
+                inplace=True)
+
+        tabela = tabela[[
+        'Pedido',
+        'NF',
+        'Cód Cliente',
+        'Cliente',
+        'Quantidade',
+        'Valor',
+        'Vendedor'
+            ]]
+    
+    df = tabela.sort_values(by='Pedido')            
+    
+    return df
+
+
 
   
 #Função principal
@@ -196,11 +234,13 @@ def main():
     pedidos_faturados = Tabela_pedidos_faturados(sc6010)
     pedidos_faturados['C6_VALOR'] = pedidos_faturados['C6_VALOR'].apply(formato_moeda)
     
-    print(pedidos_faturados)
     
     faturamento = Calcular_faturamento(sc6010)
     volume = Calcular_volume(sc6010)
     preco_medio = Calcular_preco_medio(sc6010)
+    
+    pedidos_faturados = Renomear_colunas(pedidos_faturados)
+    pedidos_naofaturados = Renomear_colunas(pedidos_naofaturados)
     
     #Definir pagina STREAMLIT
     
@@ -219,7 +259,9 @@ def main():
         
     with col3:
             st.metric(label='Volume', value=volume)
-    
+
+
+
 main()
 
 
