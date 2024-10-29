@@ -2,7 +2,7 @@
 import pandas as pd
 import streamlit as st
 import pyodbc
-from datetime import datetime
+import datetime
 from dotenv import load_dotenv
 import os
 
@@ -128,11 +128,10 @@ def Tabela_pedidos_nao_faturados(tabela_sc6010):
     
 #Cria tabela de pedidos não faturados  
 def Tabela_pedidos_faturados(tabela_sc6010):
-    df_atual = tabela_sc6010[['C6_NUM','C6_NOTA','C6_QTDVEN','A1_COD','A1_NOME','C6_VALOR','A3_NREDUZ']] #Seleciona as colunas
-    
-    df = df_atual.loc[df_atual['C6_NOTA'] != None] #Filtra apenas os pedidos que possuem NF
+    df_atual = tabela_sc6010[['C6_NUM','C6_NOTA','C6_QTDVEN','A1_COD','A1_NOME','C6_VALOR','A3_NREDUZ','C6_DATFAT']] #Seleciona as colunas
+    df = df_atual.loc[df_atual['C6_DATFAT'] == datetime.date.today() ] #Filtra apenas os pedidos que possuem data de Faturamento
     df1 = df.drop_duplicates(subset=['C6_NOTA']).reset_index() #Remove os valores duplicados
-    df1 = df1.drop(['index','C6_VALOR','C6_QTDVEN'], axis=1) #Remove colunas
+    df1 = df1.drop(['index','C6_VALOR','C6_QTDVEN','C6_DATFAT'], axis=1) #Remove colunas
     
     #Cria uma nova tabela com valores e quantidades somadas
     df2 = df_atual.groupby('C6_NOTA')[['C6_VALOR', 'C6_QTDVEN']].sum().reset_index() #Soma os valores das colunas C6_QTDVEN e C6_VALOR
