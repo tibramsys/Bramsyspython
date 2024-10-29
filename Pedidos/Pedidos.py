@@ -169,7 +169,8 @@ def Calcular_preco_medio(tabela_sc6010):
         volume = tabela_sc6010['C6_QTDVEN'].sum()
         
         preco_medio = faturamento / volume
-        preco_medio = f'R${preco_medio:,.2f}'
+        preco_medio = f'R${preco_medio:_.2f}'
+        preco_medio = preco_medio.replace('.',',').replace('_','.')
     except:
         preco_medio = 'R$0,00'
         
