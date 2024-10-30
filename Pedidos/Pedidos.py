@@ -252,7 +252,7 @@ def main():
 
     col1, col2, col3 = st.columns(3)
     with col1:
-            st.metric(label='Faturamento Diário', value=faturamento)
+            st.metric(label=':purple[Faturamento Diário]', value=faturamento)
 
     with col2:
             st.metric(label='Preço médio', value=preco_medio)
